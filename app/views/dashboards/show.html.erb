@@ -1,0 +1,24 @@
+<%= form_with url: root_path, method: :get, local: true do |form| %>
+  <%= form.text_field :city, placeholder: "Enter city name" %>
+  <%= form.submit "Get Weather" %>
+<% end %>
+
+<% if @current_weather %>
+  <h3>Current Weather</h3>
+  <p>Temperature: <%= @current_weather.parsed_response["current"]["temp_c"] %>°C</p>
+  <p>Weather Condition: <%= @current_weather.parsed_response["current"]["condition"]["text"] %></p>
+  <img src="<%= @current_weather.parsed_response["current"]["condition"]["icon"] %>" alt="Weather Icon">
+<% end %>
+
+<% if @forecast && @forecast.parsed_response["forecast"] %>
+  <h3>3-Day Forecast</h3>
+  <% @forecast.parsed_response["forecast"]["forecastday"].each do |day| %>
+    <div>
+      <p>Date: <%= day["date"] %></p>
+      <p>Max Temp: <%= day["day"]["maxtemp_c"] %>°C</p>
+      <p>Min Temp: <%= day["day"]["mintemp_c"] %>°C</p>
+      <p>Condition: <%= day["day"]["condition"]["text"] %></p>
+      <img src="<%= day["day"]["condition"]["icon"] %>" alt="Forecast Icon">
+    </div>
+  <% end %>
+<% end %>
