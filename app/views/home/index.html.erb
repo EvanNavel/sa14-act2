@@ -1,0 +1,11 @@
+<%= form_with(url: root_path, method: :get, local: true) do |form| %>
+  <%= form.number_field :amount, step: '0.01', placeholder: "Amount" %>
+  <%= form.select :source_currency, options_for_select(['USD', 'JPY', 'GBP']) %>
+  <%= form.select :target_currency, options_for_select(['USD', 'JPY', 'GBP']) %>
+  <%= form.submit "Convert" %>
+<% end %>
+
+<% if @result %>
+  <h3>Converted Amount: <%= @result %></h3>
+  <h4>Exchange Rate: <%= @exchange_rate %></h4>
+<% end %>
