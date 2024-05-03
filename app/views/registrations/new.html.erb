@@ -1,67 +1,39 @@
-<h1>Register</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Div</title>
+    <link rel="stylesheet" href="application.css">
+</head>
+<body>
+    <div id="animateMe">Move it!</div>
+    <button onclick="toggleAnimation()">Click to ANIMATE!!!</button>
 
-<form id="registrationForm">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" minlength="6" required>
-    <span id="usernameError"></span>
-  </div>
-  <div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <span id="emailError"></span>
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[A-Z]).{8,}" required>
-    <span id="passwordError"></span>
-  </div>
-  <button type="submit">Register</button>
-</form>
+    <script>
+        let isMoving = false;
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('registrationForm');
-    form.addEventListener('submit', function(event) {
-        // Prevent form submission if validation fails
-        event.preventDefault();
-        validateForm();
-    });
-
-    function validateForm() {
-        let isValid = true;
-
-        const username = document.getElementById('username');
-        const usernameError = document.getElementById('usernameError');
-        if (username.value.length < 6) {
-            usernameError.textContent = 'Username must be at least 6 characters long.';
-            isValid = false;
-        } else {
-            usernameError.textContent = '';
+        function toggleAnimation() {
+            if (!isMoving) {
+                isMoving = true;
+                moveDiv();
+            } else {
+                isMoving = false;
+            }
         }
 
-        const email = document.getElementById('email');
-        const emailError = document.getElementById('emailError');
-        if (!email.validity.valid) {
-            emailError.textContent = 'Please enter a valid email address.';
-            isValid = false;
-        } else {
-            emailError.textContent = '';
-        }
+        function moveDiv() {
+            if (!isMoving) return;
+            const div = document.getElementById('animateMe');
+            const maxX = window.innerWidth - div.clientWidth;
+            const maxY = window.innerHeight - div.clientHeight;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
 
-        const password = document.getElementById('password');
-        const passwordError = document.getElementById('passwordError');
-        const passwordRegex = /(?=.*\d)(?=.*[A-Z]).{8,}/;
-        if (!passwordRegex.test(password.value)) {
-            passwordError.textContent = 'Password must be at least 8 characters long, include one uppercase letter and one number.';
-            isValid = false;
-        } else {
-            passwordError.textContent = '';
-        }
+            div.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
-        if (isValid) {
-            form.submit();
+            setTimeout(moveDiv, 500);
         }
-    }
-});
-</script>
+    </script>
+</body>
+</html>
